@@ -194,7 +194,7 @@
 	</style>
     </head>
     <body>
-	<div role="dialog" aria-hidden="true">
+	<div role="dialog">
 	    <div role="document">
 			<div id="sign-in">
 				<img class="app-logo">
@@ -202,11 +202,11 @@
 				<p class="published-by">published by <span class="publisher-name">[Publisher Name]</span></p>
 				<form>
 					<div class="form-group">
-						<label class="col-form-label">Email:</label>
+						<label class="col-form-label" for="email">Email:</label>
 						<input type="text" class="form-control required" id="email" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
 					</div>
 					<div class="form-group">
-						<label class="col-form-label">Password:</label>
+						<label class="col-form-label" for="password">Password:</label>
 						<div class="input-group">
 							<input type="password" class="form-control password required" id="password" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
 							<button type="button" aria-hidden="true" class="input-group-addon password-show-hide" onClick="passwordShowHide(this)">
@@ -368,18 +368,18 @@
 				<h2>Create Login Credentials</h2>
 				<form>
 					<div class="form-group">
-						<label class="col-form-label">
+						<label class="col-form-label" for="signup-joining-code">
 							Joining Code: 
 							<a id="joining-info" target="_blank"><svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.024 2.724c-.96 0-1.752.78-1.752 1.752a.443.443 0 10.888 0c0-.468.384-.852.852-.852.492 0 .852.348.852.816v.036c0 .264-.072.888-.924 1.02a.452.452 0 00-.384.444v1.212a.443.443 0 10.888 0V6.3c1.128-.348 1.308-1.32 1.308-1.86.024-.96-.768-1.716-1.728-1.716zM6.024 8.136a.576.576 0 00-.576.576c0 .312.264.576.576.576a.584.584 0 00.576-.576.584.584 0 00-.576-.576z" fill="#606C8B"/><path d="M6.024.096A5.864 5.864 0 00.168 5.952a5.864 5.864 0 005.856 5.856 5.864 5.864 0 005.856-5.856A5.864 5.864 0 006.024.096zm0 10.824a4.978 4.978 0 01-4.968-4.968A4.978 4.978 0 016.024.984a4.978 4.978 0 014.968 4.968C10.98 8.688 8.76 10.92 6.024 10.92z" fill="#606C8B"/></svg></a>
 						</label>
 						<input type="text" class="form-control" id="signup-joining-code" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
 					</div>
 					<div class="form-group">
-						<label class="col-form-label">Email:</label>
+						<label class="col-form-label" for="signup-email">Email:</label>
 						<input type="text" class="form-control required" id="signup-email" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
 					</div>
 					<div class="form-group">
-						<label class="col-form-label">Create Password:</label>
+						<label class="col-form-label" for="signup-password">Create Password:</label>
 						<div class="input-group">
 							<input type="password" class="form-control password required" id="signup-password" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
 							<button type="button" aria-hidden="true" class="input-group-addon password-show-hide" onClick="passwordShowHide(this)">
@@ -526,7 +526,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-form-label">Re-Enter Password:</label>
+						<label class="col-form-label" for="signup-password-confirm">Re-Enter Password:</label>
 						<div class="input-group">
 							<input type="password" class="form-control password-confirm required" id="signup-password-confirm" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
 							<button type="button" aria-hidden="true" class="input-group-addon password-show-hide" onClick="passwordShowHide(this)">
