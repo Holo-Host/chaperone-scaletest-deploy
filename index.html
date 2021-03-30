@@ -63,9 +63,13 @@
 		font-weight: 600;
 	  }
 	  .form-control:focus,
-	  .form-control:focus ~ button.password-show-hide {
+    .form-control:focus ~ button.password-show-hide {
 	    border-bottom: 0.5px solid #545b62;
 	    box-shadow: none;
+	  }
+
+    button.password-show-hide:focus {
+      outline: 5px auto -webkit-focus-ring-color;
 	  }
 
 	  .submit-button {
@@ -93,6 +97,7 @@
 	  .form-control.is-invalid,
 	  .form-control.is-invalid ~ button.password-show-hide {
 	    border-color: rgb(250,135,137);
+      font-size: 14px;
 	  }
 	  .form-control.is-valid:focus,
 	  .form-control.is-valid:focus ~ button.password-show-hide {
@@ -179,7 +184,6 @@
 	  }
 	  button.password-show-hide {
 		vertical-align: middle;
-		outline: none;
 		background: none;
 		/* Prevent image from moving when clicked (button 3D click effect) */
 		padding: 0;
@@ -191,6 +195,30 @@
 	    border-radius: 0;
 		transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 	  }
+
+    .spinner {
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #888888;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      margin: 20px auto 0 auto;
+      animation: spinner 2s linear infinite;
+    }
+
+    @keyframes spinner {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    #login-error, #submit-error {
+      margin-bottom: 20px;
+    }
+
 	</style>
     </head>
     <body>
@@ -200,15 +228,15 @@
 				<img class="app-logo">
 				<h1><span class="app-name">[Name of hApp]</span> Login</h1>
 				<p class="published-by">published by <span class="publisher-name">[Publisher Name]</span></p>
-				<form>
+				<form onkeypress="formKeyPressed(event, this)">
 					<div class="form-group">
 						<label class="col-form-label" for="email">Email:</label>
-						<input type="text" class="form-control required" id="email" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
+						<input type="text" class="form-control required" id="email" onBlur="onInputBlur(this)">
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="password">Password:</label>
 						<div class="input-group">
-							<input type="password" class="form-control password required" id="password" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
+							<input type="password" class="form-control password required" id="password" onBlur="onInputBlur(this)">
 							<button type="button" aria-hidden="true" class="input-group-addon password-show-hide" onClick="passwordShowHide(this)">
 								<svg class="password-show" width="20.150009" height="15.7"
 									xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -355,8 +383,12 @@
 					</div>
 				</form>
 				<div class="mx-auto text-center">
-					<button type="button" class="submit-button"
+          <div id='login-error' class='invalid-feedback' style='display: block'></div>
+					<button type="submit" class="submit-button"
 						onclick="formSubmit(this.parentElement.parentElement.querySelector('form'))">Login</button>
+          <div class='spinner-wrapper'>
+            <div id='login-spinner'></div>
+          </div>
 					<p class="ui-toggle">First time using the hApp? <a href="#" onclick="showSignUp()">Create credentials</a>.</p>
 				</div>
 			</div>
@@ -366,22 +398,22 @@
 				<h1><span class="app-name">[Name of hApp]</span></h1>
 				<p class="published-by">published by <span class="publisher-name">[Publisher Name]</span></p>
 				<h2>Create Login Credentials</h2>
-				<form>
+				<form onkeypress="formKeyPressed(event, this)">
 					<div class="form-group">
 						<label class="col-form-label" for="signup-joining-code">
-							Joining Code: 
+							Joining Code:
 							<a id="joining-info" target="_blank"><svg width="12" height="12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6.024 2.724c-.96 0-1.752.78-1.752 1.752a.443.443 0 10.888 0c0-.468.384-.852.852-.852.492 0 .852.348.852.816v.036c0 .264-.072.888-.924 1.02a.452.452 0 00-.384.444v1.212a.443.443 0 10.888 0V6.3c1.128-.348 1.308-1.32 1.308-1.86.024-.96-.768-1.716-1.728-1.716zM6.024 8.136a.576.576 0 00-.576.576c0 .312.264.576.576.576a.584.584 0 00.576-.576.584.584 0 00-.576-.576z" fill="#606C8B"/><path d="M6.024.096A5.864 5.864 0 00.168 5.952a5.864 5.864 0 005.856 5.856 5.864 5.864 0 005.856-5.856A5.864 5.864 0 006.024.096zm0 10.824a4.978 4.978 0 01-4.968-4.968A4.978 4.978 0 016.024.984a4.978 4.978 0 014.968 4.968C10.98 8.688 8.76 10.92 6.024 10.92z" fill="#606C8B"/></svg></a>
 						</label>
-						<input type="text" class="form-control" id="signup-joining-code" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
+						<input type="text" class="form-control" id="signup-joining-code" onBlur="onInputBlur(this)">
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="signup-email">Email:</label>
-						<input type="text" class="form-control required" id="signup-email" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
+						<input type="text" class="form-control required" id="signup-email" onBlur="onInputBlur(this)">
 					</div>
 					<div class="form-group">
 						<label class="col-form-label" for="signup-password">Create Password:</label>
 						<div class="input-group">
-							<input type="password" class="form-control password required" id="signup-password" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
+							<input type="password" class="form-control password required" id="signup-password" onBlur="onInputBlur(this)">
 							<button type="button" aria-hidden="true" class="input-group-addon password-show-hide" onClick="passwordShowHide(this)">
 								<svg class="password-show" width="20.150009" height="15.7"
 									xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -528,7 +560,7 @@
 					<div class="form-group">
 						<label class="col-form-label" for="signup-password-confirm">Re-Enter Password:</label>
 						<div class="input-group">
-							<input type="password" class="form-control password-confirm required" id="signup-password-confirm" onBlur="this.classList.add('has-blurred'); validate(this.closest('form'))">
+							<input type="password" class="form-control password-confirm required" id="signup-password-confirm" onBlur="onInputBlur(this)">
 							<button type="button" aria-hidden="true" class="input-group-addon password-show-hide" onClick="passwordShowHide(this)">
 								<svg class="password-show" width="20.150009" height="15.7"
 									xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -675,8 +707,12 @@
 					</div>
 				</form>
 				<div class="mx-auto text-center">
+          <div id='login-error' class='invalid-feedback' style='display: block'></div>
 					<button type="button" class="submit-button"
 						onclick="formSubmit(this.parentElement.parentElement.querySelector('form'))">Submit</button>
+          <div class='spinner-wrapper'>
+            <div id='submit-spinner' />
+          </div>
 					<p class="ui-toggle">Already have credentials? <a href="#" onclick="showSignIn()">Login here</a>.</p>
 				</div>
 			</div>
@@ -696,22 +732,70 @@
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	
+
 	<script type="text/javascript">
 		let $signin = $("#sign-in");
 		let $signup = $("#sign-up");
 
-	    window.showSignIn = function () {
+    window.showSignIn = function () {
 		  window.expect = "signin";
+      window.clearErrorMessage();
 		  $signin.show();
 		  $signup.hide();
-	    }
-	    window.showSignUp = function () {
+    }
+    window.showSignUp = function () {
 		  window.expect = "signup";
-
+      window.clearErrorMessage();
 		  $signin.hide();
 		  $signup.show();
-	    }
+    }
+
+    window.showErrorMessage = function (message) {
+      window.hideSpinner()
+      const $loginError = $("#login-error")
+      const $submitError = $("#submit-error")
+
+      $loginError.text(message)
+      $loginError.show()
+
+      $submitError.text(message)
+      $submitError.show()
+    }
+
+    window.clearErrorMessage = function () {
+      const $loginError = $("#login-error")
+      const $submitError = $("#submit-error")
+
+      $loginError.text('')
+      $loginError.hide()
+
+      $submitError.text('')
+      $submitError.hide()
+    }
+
+    window.showSpinner = function () {
+      const $loginSpinner = $('#login-spinner')
+      const $submitSpinner = $('#submit-spinner')
+      if ($loginSpinner) {
+        $loginSpinner.addClass('spinner')
+      }
+
+      if ($submitSpinner) {
+        $submitSpinner.addClass('spinner')
+      }
+    }
+
+    window.hideSpinner = function () {
+      const $loginSpinner = $('#login-spinner')
+      const $submitSpinner = $('#submit-spinner')
+      if ($loginSpinner) {
+        $loginSpinner.removeClass('spinner')
+      }
+
+      if ($submitSpinner) {
+        $submitSpinner.removeClass('spinner')
+      }
+    }
 
 		const url_params = new URLSearchParams(window.location.search);
 
@@ -740,6 +824,12 @@
 		  shownSiblings.forEach(sibling => sibling.setAttribute("type", "password"));
 		  hiddenSiblings.forEach(sibling => sibling.setAttribute("type", "text"));
 		}
+
+    window.onInputBlur = function(inputElement) {
+      inputElement.classList.add('has-blurred');
+      window.clearErrorMessage()
+      validate(inputElement.closest('form'))
+    }
 
 		window.validate = function(formElement) {
 			const hasSubmitted = formElement.classList.contains("has-submitted");
@@ -780,7 +870,7 @@
 						inputElement.classList.remove("is-valid");
 					}
 				}
-				
+
 			}
 			if (allValid) {
 				formElement.classList.add("all-valid");
@@ -790,7 +880,7 @@
 
 			return allValid;
 		}
-		
+
 		window.resetForms = function () {
 			for (const inputElement of document.getElementsByClassName("form-control")) {
 				inputElement.classList.remove("is-valid");
@@ -810,28 +900,33 @@
 				feedback.classList.remove("d-block");
 			}
 		}
+
+    window.formKeyPressed = function (e, formElement) {
+      if (e && e.which === 13) {
+        window.formSubmit(formElement)
+      }
+    }
 	</script>
 	<script type="text/javascript" src="/dist/holo_hosting_chaperone.js"></script>
 	<script type="text/javascript">
-    	  (async () => {
-	      Object.assign( window, await chaperone );
+    (async () => {
+      Object.assign( window, await chaperone );
 
-	      let client;
-	      try {
-		  client = new Chaperone({
-			"connection": {
-				"secure": true,
-				"port": 443,
-				"path": "/hosting/"
-			},
-			"debug": true
-			});
-	      } catch ( err ) {
-		  console.error( String(err) );
-	      }
-
-	      window.client = client;
-	  })();
-	</script>
+      let client;
+      try {
+        client = new Chaperone({
+          "connection": {
+            "secure": true,
+            "port": 443,
+            "path": "/hosting/"
+          },
+          "debug": true
+        });
+      } catch ( err ) {
+        console.error( String(err) );
+      }
+      window.client = client;
+  })();
+  </script>
     </body>
 </html>
