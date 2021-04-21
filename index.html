@@ -707,7 +707,7 @@
 					</div>
 				</form>
 				<div class="mx-auto text-center">
-          <div id='login-error' class='invalid-feedback' style='display: block'></div>
+          <div id='submit-error' class='invalid-feedback' style='display: block'></div>
 					<button type="button" class="submit-button"
 						onclick="formSubmit(this.parentElement.parentElement.querySelector('form'))">Submit</button>
           <div class='spinner-wrapper'>
@@ -742,12 +742,14 @@
       window.clearErrorMessage();
 		  $signin.show();
 		  $signup.hide();
+      window.hideSpinner();
     }
     window.showSignUp = function () {
 		  window.expect = "signup";
       window.clearErrorMessage();
 		  $signin.hide();
 		  $signup.show();
+      window.hideSpinner();
     }
 
     window.showErrorMessage = function (message) {
@@ -763,6 +765,7 @@
     }
 
     window.clearErrorMessage = function () {
+      window.hideSpinner()
       const $loginError = $("#login-error")
       const $submitError = $("#submit-error")
 
@@ -771,6 +774,15 @@
 
       $submitError.text('')
       $submitError.hide()
+    }
+
+    window.setFormIsProcessing = function (value) {
+      window.formIsProcessing = value
+      if (value) {
+        window.showSpinner()
+      } else {
+        window.hideSpinner()
+      }
     }
 
     window.showSpinner = function () {
@@ -911,7 +923,6 @@
 	<script type="text/javascript">
     (async () => {
       Object.assign( window, await chaperone );
-
       let client;
       try {
         client = new Chaperone({
@@ -926,7 +937,7 @@
         console.error( String(err) );
       }
       window.client = client;
-  })();
+    })();
   </script>
-    </body>
+  </body>
 </html>
