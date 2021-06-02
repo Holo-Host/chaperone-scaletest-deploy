@@ -751,6 +751,7 @@
     }
 
     window.showErrorMessage = function (message) {
+      window.setFormIsProcessing(false)
       const $loginError = $("#login-error")
       const $submitError = $("#submit-error")
 
@@ -782,7 +783,6 @@
     }
 
     window.showSpinner = function () {
-      console.log('&&&&&&&&&&&& rawjs showing spinner')
       const $loginSpinner = $('#login-spinner')
       const $submitSpinner = $('#submit-spinner')
       if ($loginSpinner) {
@@ -795,7 +795,6 @@
     }
 
     window.hideSpinner = function () {
-      console.log('&&&&&&&&&&&& rawjs hiding spinner')
       const $loginSpinner = $('#login-spinner')
       const $submitSpinner = $('#submit-spinner')
       if ($loginSpinner) {
