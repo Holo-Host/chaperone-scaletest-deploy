@@ -131,6 +131,9 @@
 
 		margin-block-end: 12px;
 	  }
+	  i {
+		font-size:20px!important;
+	  }
 	  .published-by {
 		line-height: 16px;
 
@@ -151,8 +154,8 @@
 		  display: block;
 		  margin-left: auto;
 		  margin-right: auto;
-		  width: 70px;
-		  height: 70px;
+		  max-width: 70px;
+		  max-height: 70px;
 		  margin-bottom: 12px;
 	  }
 	  footer p {
@@ -219,11 +222,102 @@
       margin-bottom: 20px;
     }
 
+	#service-ticket-banner {
+	  width: 86%;
+	}
+    #ticket-title {
+      text-decoration: none;
+      color: #606C8B;
+    }
+	.ticket-body-text {
+	  color: #606C8B;
+	  font-family: 'Nunito Sans', 'Roboto';
+	}
+	#ticket-heading {
+	  margin: 0 2vw;
+	}
+	#ticket-icon {
+	  margin-right: 6px;
+	}
+	#warning-icon {
+      margin-top: -6px;
+	}
+	#ticket-body {
+	  margin: 0 5vw;
+	}
+	.ticket-details {
+	  margin-left: 8px;
+	}
+    .panel-default>.panel-heading {
+      padding: 0;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .panel-default>.panel-heading a {
+      display: block;
+      padding: 10px 15px;
+    }
+    .panel-default>.panel-heading a:after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      right: 24px;
+      display: inline-block;
+      font-family: 'Nunito Sans', 'Roboto';
+      font-style: normal;
+      font-weight: lighter;
+      font-size: 46px;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      float: right;
+      transition: transform .25s linear;
+      -webkit-transition: -webkit-transform .25s linear;
+    }
+    .panel-default>.panel-heading a[aria-expanded="true"]:after {
+      content: "\2212";
+      -webkit-transform: rotate(180deg);
+      transform: rotate(180deg);
+    }
+    .panel-default>.panel-heading a[aria-expanded="false"]:after {
+      content: "\002b";
+      -webkit-transform: rotate(90deg);
+      transform: rotate(90deg);
+    }
+
+
 	</style>
     </head>
     <body>
 	<div role="dialog">
 	    <div role="document">
+			<div id="service-ticket-banner" class="container">
+				<div class="clearfix"></div>
+				<div id="ticket-header" class="alert alert-warning fade show alert-dismissible panel-group" role="alert tablist">
+					<div class="panel panel-default">
+						<div id="ticket-heading" class="panel-heading" role="tab" id="ticketInfo">
+							<div class="panel-title">
+								<a id="ticket-title" role="button" data-toggle="collapse" data-parent="#ticket-header" href="#collapse" aria-expanded="false" aria-controls="collapse" class="collapsed">
+                  					<h5><strong><span id="ticket-icon" aria-hidden="true"><svg id="warning-icon" width="21" height="19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.792 13.969L13.055 1.993C12.332.708 11.318 0 10.2 0c-1.12 0-2.134.708-2.857 1.993L.605 13.969c-.72 1.28-.8 2.526-.225 3.508C.954 18.46 2.08 19 3.55 19h13.298c1.47 0 2.594-.54 3.169-1.523.575-.981.494-2.228-.225-3.508zm-1.128 2.717c-.278.474-.94.745-1.816.745H3.549c-.876 0-1.538-.272-1.816-.745-.278-.475-.19-1.186.239-1.949L8.708 2.761c.427-.758.97-1.193 1.49-1.193.521 0 1.064.435 1.49 1.193l6.736 11.976c.43.763.517 1.474.24 1.949z" fill="#606C8B"/><path d="M10.198 13.394a1.033 1.033 0 10.001 2.066 1.033 1.033 0 000-2.066zM10.198 5.912c-.57 0-1.032.463-1.032 1.033 0 .03.006.058.008.087H9.17l.412 5.002h.003c.027.317.29.569.614.569.325 0 .588-.251.615-.569h.004l.411-5.002h-.005c.003-.03.008-.057.008-.087 0-.57-.462-1.033-1.033-1.033z" fill="#606C8B"/></svg></span> Oops, something's not working</strong></h5>
+								</a>
+							</div>
+						</div>
+						<div id="collapse" class="panel-collapse in collapse" role="tabpanel" aria-labelledby="ticketInfo">
+							<div id="ticket-body" class="panel-body">
+								<p class="ticket-body-text"><strong>Please reach out to help@holo.host for support. Share this service ticket information for more efficient troubleshooting.</strong></p>
+								<p class="ticket-body-text"><strong>Error:</strong> <span id="ticket-error" class="ticket-details"><span></p>
+								<p class="ticket-body-text"><strong>Agent Id:</strong> <span id="agent-id" class="ticket-details"><span></p>
+								<p class="ticket-body-text"><strong>Host Id:</strong> <span id="host-id" class="ticket-details"><span></p>
+								<p class="ticket-body-text"><strong>App Id:</strong> <span id="happ-id" class="ticket-details"><span></p>
+								<p class="ticket-body-text"><strong>Browser Info:</strong> <span id="browser-version" class="ticket-details"><span></p>
+								<p class="ticket-body-text"><strong>Chaperone URL:</strong> <span id="chaperone-url" class="ticket-details"><span></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div id="sign-in">
 				<img class="app-logo">
 				<h1><span class="app-name">[Name of hApp]</span> Login</h1>
@@ -736,17 +830,20 @@
 	<script type="text/javascript">
 		let $signin = $("#sign-in");
 		let $signup = $("#sign-up");
+		const $serviceTicketBanner = $("#service-ticket-banner")
 
     window.showSignIn = function () {
 		  window.expect = "signin";
       window.clearErrorMessage();
-		  $signin.show();
 		  $signup.hide();
+		  $serviceTicketBanner.hide();
+		  $signin.show();
     }
     window.showSignUp = function () {
 		window.expect = "signup";
       window.clearErrorMessage();
 		  $signin.hide();
+		  $serviceTicketBanner.hide();
 		  $signup.show();
     }
 
@@ -804,6 +901,26 @@
       if ($submitSpinner) {
         $submitSpinner.removeClass('spinner')
       }
+    }
+
+	window.showServiceTicketBanner = function (agentId, hostId, happId, browserVersion, chaperoneUrl, error) {
+	  $("#ticket-error").text(error)
+	  $("#agent-id").text(agentId)
+	  $("#host-id").text(hostId)
+	  $("#happ-id").text(happId)
+	  $("#browser-version").text(browserVersion)
+	  $("#chaperone-url").text(chaperoneUrl)
+      $serviceTicketBanner.show()
+    }
+
+	window.clearServiceTicketBanner = function () {
+	  $("#ticket-error").text('')
+	  $("#agent-id").text('')
+	  $("#host-id").text('')
+	  $("#happ-id").text('')
+	  $("#browser-version").text('')
+	  $("#chaperone-url").text('')
+      $serviceTicketBanner.hide()
     }
 
 		const url_params = new URLSearchParams(window.location.search);
